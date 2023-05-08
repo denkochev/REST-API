@@ -3,7 +3,9 @@ const path = require('path');
 const app = express();
 
 
-
+const CONTACTS = [
+    {id: 1, name: 'Denys', value: '+380-626-82-15', marked: false}
+]
 
 
 app.use(express.static(path.resolve(__dirname, '../client')));
