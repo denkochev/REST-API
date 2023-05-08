@@ -8,9 +8,7 @@ new Vue({
                 name: '',
                 value: ''
             },
-            contacts: [
-
-            ]
+            contacts: []
         }
     },
     computed: {
@@ -32,26 +30,30 @@ new Vue({
             contact.marked = true;
         },
         removeContact(id) {
-            this.contacts = this.contacts.filter(c=> c.id !== id);
+            this.contacts = this.contacts.filter(c => c.id !== id);
         }
+    },
+    async mounted() {
+        this.contacts = await request('/api/contacts');
     }
 });
 
-async function request(url,method = 'GET', data = null){
+async function request(url, method = 'GET', data = null) {
     try {
         const headers = {}
         let body
 
-        if(data){
+        if (data) {
             headers['Content-Type'] = 'application/json';
-            body = JSON.stringify(data)
+            body = JSON.stringify(data);
         }
 
-        fetch(url, {
+        const response = await fetch(url, {
             method,
             headers,
             body
-        })
+        });
+        return await response.json();
     } catch (e) {
         console.warn('Error:', e.message)
     }
